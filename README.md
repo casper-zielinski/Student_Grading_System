@@ -1,57 +1,44 @@
 # Student Grading System
 
-A simple Python-based grading system for managing students and their exercise grades.
+A Python-based grading system for managing students and their exercise grades with an interactive command-line interface.
+
+## Project Structure
+
+- `src/GradingSystem.py` - Core classes (Exercise, Student, Students)
+- `src/Shower.py` - Interactive CLI menu for managing students
 
 ## Features
 
-- **Exercise Management**: Track individual exercises with descriptions and grades
-- **Student Management**: Store student information including name, age, and grades
-- **Grade Calculation**: Automatically calculate average grades for each student
-- **Student Search**: Find students by name or age
-- **Collection Management**: Manage multiple students in a single container
+- Add and manage students (name, age, grades)
+- Track exercise grades and calculate averages
+- Search students by name or age
+- Interactive menu interface
+
+## Running the Application
+
+```bash
+python src/Shower.py
+```
+
+The menu offers options to:
+1. Add Students
+2. Add Exercise (TODO)
+3. Show Student (TODO)
+4. View Student (TODO)
+5. Exit
 
 ## Classes
 
 ### Exercise
-Represents an individual exercise with a description and grade.
+Represents an exercise with description and grade.
 
 ### Student
-Represents a student with:
-- Name
-- Age (alter)
-- List of exercise grades
-- Methods to view student info and calculate average grade
+Stores student data: name, age, and exercise grades.
 
 ### Students
-Container class for managing multiple students with methods to:
-- Add new students
-- Count total students
-- Find students by name or age
-
-## Usage Example
-
-```python
-from GradingSystem import Student, Students
-
-# Create students
-max = Student("Max", 12, [4, 2, 4, 1])
-lena = Student("Lena", 14, [2, 5, 2])
-
-# Create students collection
-students = Students([max, lena])
-
-# Get student information
-print(max.ViewStudent())
-print(f"Average grade: {max.AvarageGrade()}")
-
-# Add a new grade
-max.AddExerciseGrade(3)
-
-# Find a student
-found = students.FindStudent(name="Max", alter=None)
-```
+Container for managing multiple Student objects.
 
 ## Requirements
 
-- Python 3.6+
-- Standard library only (no external dependencies)
+- Python 3.10+ (uses match/case)
+- Standard library only
