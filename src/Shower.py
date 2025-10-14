@@ -65,42 +65,43 @@ def Menu(run):
                   case "3":
                         if len(Exercises) == 0:
                               print("Keine Übungen vorhanden!")
-                              break
+                        else: 
+                              
 
-                         # docs: https://www.w3schools.com/python/python_try_except.asp
-                        try:
-                              exerciseID = int(input("Gib die ID der Übung ein: "))
-                        except ValueError:
-                              print("Ungültige Eingabe!")
-                              break
+                              # docs: https://www.w3schools.com/python/python_try_except.asp
+                              try:
+                                    exerciseID = int(input("Gib die ID der Übung ein: "))
+                              except ValueError:
+                                    print("Ungültige Eingabe!")
+                                    
 
-                        # Prüfen, ob die ID existiert
-                        foundExercise = None
-                        for ex in Exercises:
-                              if ex.id == exerciseID:
-                                    foundExercise = ex
-                                    break
+                              # Prüfen, ob die ID existiert
+                              foundExercise = None
+                              for ex in Exercises:
+                                    if ex.id == exerciseID:
+                                          foundExercise = ex
+                                          
 
-                        if foundExercise is None:
-                              print("Diese Übung gibt es nicht!")
-                              break
+                              if foundExercise is None:
+                                    print("Diese Übung gibt es nicht!")
+                                    
 
-                        print(f"\n--- Ergebnisse für Übung '{foundExercise.name}' ---")
-                        if Students.countStudents() == 0:
-                              print("Es gibt keine Schüler.")
-                        else:
-                              for student in Students.students:
-                                    foundGrade = None
-                                    for g in student.exercise_grading:
-                                          if g["exerciseID"] == exerciseID:
-                                                foundGrade = g["grade"]
-                                                break
+                              print(f"\n--- Ergebnisse für Übung '{foundExercise.name}' ---")
+                              if Students.countStudents() == 0:
+                                    print("Es gibt keine Schüler.")
+                              else:
+                                    for student in Students.students:
+                                          foundGrade = None
+                                          for g in student.exercise_grading:
+                                                if g["exerciseID"] == exerciseID:
+                                                      foundGrade = g["grade"]
+                                                      
 
-                                    if foundGrade is not None:
-                                          print(f"{student.name}: {foundGrade} Punkte")
-                                    else:
-                                          print(f"{student.name}: keine Note eingetragen")
-                  
+                                          if foundGrade is not None:
+                                                print(f"{student.name}: {foundGrade} Punkte")
+                                          else:
+                                                print(f"{student.name}: keine Note eingetragen")
+                        
                   case "4":
                          # Schüler anzeigen
                         name = input("Gib den Namen des Schülers ein: ")
@@ -109,37 +110,47 @@ def Menu(run):
                         student = Students.FindStudent(name, None)
                         if student is None:
                               print("Schüler wurde nicht gefunden!")
-                              break
-
-                        # Schülerinformationen anzeigen
-                        print(f"\n--- Schülerinfo ---")
-                        print(student.ViewStudent())
-
-                        if not student.exercise_grading:
-                              print("Keine Übungen vorhanden.")
                         else:
-                              print("\n--- Notenübersicht ---")
-                              for grade_entry in student.exercise_grading:
-                                    exerciseID = grade_entry["exerciseID"]
-                                    grade = grade_entry["grade"]
-
-                                    
-                                    exercise = next((ex for ex in Exercises if ex.id == exerciseID), None)
-                                    exercise_name = exercise.name if exercise else "(unbekannte Übung)"
-
-                                    print(f"Übung {exerciseID} ({exercise_name}): {grade} Punkte")
-
-                              print(f"\nDurchschnittsnote: {student.AvarageGrade():.2f}")
+                              # Schülerinformationen anzeigen
+                              print(f"\n--- Schülerinfo ---")
+                              print(student.ViewStudent())   
                         
+                              if not student.exercise_grading:
+                                    print("Keine Übungen vorhanden.")
+                              else:
+                                    print("\n--- Notenübersicht ---")
+                                    for grade_entry in student.exercise_grading:
+                                          exerciseID = grade_entry["exerciseID"]
+                                          grade = grade_entry["grade"]
+
+                                          
+                                          exercise = next((ex for ex in Exercises if ex.id == exerciseID), None)
+                                          exercise_name = exercise.name if exercise else "(unbekannte Übung)"
+
+                                          print(f"Übung {exerciseID} ({exercise_name}): {grade} Punkte")
+
+                                    print(f"\nDurchschnittsnote: {student.AvarageGrade():.2f}")
+                              
                   case "5":
                         # Exit the application
                         print("Canceling App")
                         run = False
+                        break
+                  case "h":
+                        # Shows Options
+                        print()
+                        print("--Options: --")
+                        print("1. Add Students")
+                        print("2. Add Exercise")
+                        print("3. View Exercise")
+                        print("4. View Student")
+                        print("5. Cancel")
+                        print()
                   case _:
                         # Handle invalid input
                         print("----------------")
                         print("Keine solche Option, wähle eines der angegebenen Optionen")
                         print("----------------")
-                        Menu()
+                        print("'h' für hilfe")
 
 Menu(True)
