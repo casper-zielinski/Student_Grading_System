@@ -5,7 +5,7 @@ class Exercise:
       """
       Represents an exercise with a description and grade.
       """
-      def __init__(self, desc, grade):
+      def __init__(self, id, name):
             """
             Initialize an exercise.
 
@@ -13,12 +13,12 @@ class Exercise:
                 desc: Description of the exercise
                 grade: Grade received for the exercise
             """
-            self.desc = desc
-            self.grade = grade
+            self.id = id
+            self.name = name
 
       def ViewExercise(self):
             """Return the exercise description."""
-            return self.desc
+            return  print(f"{self.id}: {self.name}")
 
       def ViewGrade(self):
             """Return the exercise grade."""
@@ -28,7 +28,7 @@ class Student:
       """
       Represents a student with name, age, and their exercise grades.
       """
-      def __init__(self, name, alter, exercise_grading: List[int]):
+      def __init__(self, name, alter,  exercise_grading: List[int]):
             """
             Initialize a student.
 
@@ -39,7 +39,7 @@ class Student:
             """
             self.name = name
             self.alter = alter
-            self.exercise_grading: List[int] = exercise_grading
+            self.exercise_grading: List[dict] = exercise_grading
 
       def ViewStudent(self):
             """Return formatted string with student information."""
@@ -47,17 +47,29 @@ class Student:
 
       def AvarageGrade(self):
             """Calculate and return the average grade across all exercises."""
-            return statistics.mean(self.exercise_grading)
+            if not self.exercise_grading:
+                  return 0  # Kein Fehler, falls Liste leer ist
+            grades = [g["grade"] for g in self.exercise_grading]  # 🔥 Extrahiere nur die Noten
+            return statistics.mean(grades)
 
-      def AddExerciseGrade(self, exercise_grade):
+      def AddExerciseGrade(self, exerciseID, exerciseGrade):
             """
             Add a new exercise grade to the student's record.
 
             Args:
                 exercise_grade: The grade to add
             """
-            self.exercise_grading.append(exercise_grade)
 
+            for ex in self.exercise_grading:
+                  if ex["exerciseID"] == exerciseID:
+                        print("Diese Exercise exisitiert bereits. Überschreibe nun die Note...")
+                        ex["grade"] = float(exerciseGrade)
+                        print("Note wurde überschrieben!")
+                        return
+               
+            self.exercise_grading.append({"exerciseID": exerciseID, "grade": exerciseGrade})
+            print("Note wurde eingetragen!")
+            
 
 class Students:
       """
@@ -106,6 +118,7 @@ class Students:
             # Search by age if name is not provided
             elif name is None:
                   Schüleralter = list(map(lambda x: x.alter, self.students))
+                  # docs: https://www.w3schools.com/python/python_try_except.asp
                   try:
                         index = Schüleralter.index(alter)
                         return self.students[index]
