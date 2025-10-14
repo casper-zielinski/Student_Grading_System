@@ -121,8 +121,3 @@ class Students:
                   except ValueError:
                         print("Student not found")
                   
-
-
-Max = Student("Max",12,[4,2,4,1])
-Lena = Student("Lena",14,[2,5,2])
-
