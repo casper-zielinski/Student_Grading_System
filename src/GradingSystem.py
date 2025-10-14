@@ -2,32 +2,24 @@ import statistics
 from typing import List, Optional
 
 class Exercise:
-      """
-      Represents an exercise with a description and grade.
-      """
+      """Represents an exercise with an ID and name."""
       def __init__(self, id, name):
             """
             Initialize an exercise.
 
             Args:
-                desc: Description of the exercise
-                grade: Grade received for the exercise
+                id: Unique identifier for the exercise
+                name: Name of the exercise
             """
             self.id = id
             self.name = name
 
       def ViewExercise(self):
-            """Return the exercise description."""
+            """Print the exercise ID and name."""
             return  print(f"{self.id}: {self.name}")
 
-      def ViewGrade(self):
-            """Return the exercise grade."""
-            return self.grade
-
 class Student:
-      """
-      Represents a student with name, age, and their exercise grades.
-      """
+      """Represents a student with name, age, and their exercise grades."""
       def __init__(self, name, alter,  exercise_grading: List[int]):
             """
             Initialize a student.
@@ -35,7 +27,7 @@ class Student:
             Args:
                 name: Student's name
                 alter: Student's age
-                exercise_grading: List of grades for completed exercises
+                exercise_grading: List of dictionaries containing exerciseID and grade
             """
             self.name = name
             self.alter = alter
@@ -48,16 +40,17 @@ class Student:
       def AvarageGrade(self):
             """Calculate and return the average grade across all exercises."""
             if not self.exercise_grading:
-                  return 0  # Kein Fehler, falls Liste leer ist
-            grades = [g["grade"] for g in self.exercise_grading]  # 🔥 Extrahiere nur die Noten
+                  return 0
+            grades = [g["grade"] for g in self.exercise_grading]
             return statistics.mean(grades)
 
       def AddExerciseGrade(self, exerciseID, exerciseGrade):
             """
-            Add a new exercise grade to the student's record.
+            Add a new exercise grade or update existing one.
 
             Args:
-                exercise_grade: The grade to add
+                exerciseID: The ID of the exercise
+                exerciseGrade: The grade to add or update
             """
 
             for ex in self.exercise_grading:
@@ -72,9 +65,7 @@ class Student:
             
 
 class Students:
-      """
-      Container class for managing multiple students.
-      """
+      """Container class for managing multiple students."""
       def __init__(self, Students: List[Student]):
             """
             Initialize the students container.
@@ -90,9 +81,6 @@ class Students:
 
             Args:
                 Student: Student object to add
-
-            Returns:
-                Updated list of students
             """
             self.students.append(Student)
             return self.students
@@ -110,12 +98,11 @@ class Students:
                 alter: Student's age (optional)
 
             Returns:
-                Student object if found, error message otherwise
+                Student object if found, None otherwise
             """
-            # Check if both parameters are None
             if name is None and alter is None:
                   return "Bitte name oder alter angeben"
-            # Search by age if name is not provided
+            #  Search by age
             elif name is None:
                   Schüleralter = list(map(lambda x: x.alter, self.students))
                   # docs: https://www.w3schools.com/python/python_try_except.asp
